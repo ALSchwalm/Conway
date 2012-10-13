@@ -15,12 +15,14 @@ class Simulator
     public:
         Simulator(SDL_Surface * s);
         void start();
-
+        void updateField();
         SDL_Surface * getSurface(){return screen;}
         vector <vector <bool> > & getField(){return bField;}
 
     private:
         vector <vector <bool> >bField;
+        vector <pair <int, int> >vPoints;
+
         SDL_Surface * screen;
         Render * rend;
         SDL_Event event;

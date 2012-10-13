@@ -210,23 +210,23 @@
 	"SDL/SDL.h"
 	"Simulator.h"
 
-1350093813 source:e:\users\adam\my programs\c++\conway\src\render.cpp
+1350157417 source:e:\users\adam\my programs\c++\conway\src\render.cpp
 	"Render.h"
 
 1350079834 e:\users\adam\my programs\c++\conway\include\render.h
 	"SDL/SDL.h"
 	"Simulator.h"
 
-1350094006 e:\users\adam\my programs\c++\conway\include\simulator.h
+1350151404 e:\users\adam\my programs\c++\conway\include\simulator.h
 	"SDL/SDL.h"
 	"Render.h"
 	"Global.h"
 	<vector>
 	<time.h>
 
-1350093523 e:\users\adam\my programs\c++\conway\include\global.h
+1350151949 e:\users\adam\my programs\c++\conway\include\global.h
 
-1350094280 source:e:\users\adam\my programs\c++\conway\src\simulator.cpp
+1350157380 source:e:\users\adam\my programs\c++\conway\src\simulator.cpp
 	"Simulator.h"
 
 1350093494 source:e:\users\adam\my programs\c++\conway\src\main.cpp
