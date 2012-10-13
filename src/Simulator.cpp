@@ -2,6 +2,8 @@
 
 Simulator::Simulator(SDL_Surface * s)
 {
+    srand(time(NULL));
+
     this->screen = s;
     this->rend = new Render(this);
     for (unsigned int i = 0 ; i < SCREEN_WIDTH; i++)
@@ -37,13 +39,13 @@ void Simulator::updateField()
             if (j + 1 < SCREEN_HEIGHT)
                 if (bField[i][j+1]) iNeighbors ++;
 
-            if (bField[i][j])
+            if (!bField[i][j])
             {
-                if ( iNeighbors < 2 || iNeighbors > 3) bField[i][j] = false;
+                if ( iNeighbors == 3 ) this->bField[i][j] = true;
             }
             else
             {
-                if ( iNeighbors == 3 ) bField[i][j] = true;
+                if ( iNeighbors < 2 || iNeighbors > 3) this->bField[i][j] = false;
             }
         }
     }
@@ -52,7 +54,7 @@ void Simulator::updateField()
 
 void Simulator::start()
 {
-    srand(time(NULL));
+
 
     Uint32 startclock;
     Uint32 currentFPS = 0;
@@ -70,17 +72,17 @@ void Simulator::start()
         updateField();
         rend->drawFrame();
 
-//        delaytime = waittime - (SDL_GetTicks() - framestarttime);
-//        if  (delaytime > 0)
-//            SDL_Delay((Uint32)delaytime);
-//        framestarttime = SDL_GetTicks();
-//
-//        deltaclock = SDL_GetTicks() - startclock;
-//
-//        if (deltaclock !=  0 )
-//        {
-//            currentFPS = 1000/deltaclock;
-//        }
+        delaytime = waittime - (SDL_GetTicks() - framestarttime);
+        if  (delaytime > 0)
+            SDL_Delay((Uint32)delaytime);
+        framestarttime = SDL_GetTicks();
+
+        deltaclock = SDL_GetTicks() - startclock;
+
+        if (deltaclock !=  0 )
+        {
+            currentFPS = 1000/deltaclock;
+        }
     }
 
 }

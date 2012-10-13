@@ -7,6 +7,7 @@ Render::Render(Simulator * s)
 
 void Render::drawFrame()
 {
+    SDL_FillRect(sim->getSurface(), NULL, 0x000000);
 
     for (unsigned int i = 0; i < SCREEN_WIDTH; i++)
     {
