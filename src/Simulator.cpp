@@ -6,6 +6,8 @@ Simulator::Simulator(SDL_Surface * s)
 
     this->screen = s;
     this->rend = new Render(this);
+    this->bPaused = false;
+    this->bRunning = true;
     for (unsigned int i = 0 ; i < SCREEN_WIDTH; i++)
     {
         this->vField.push_back(*(new vector <Cell>));
@@ -24,7 +26,7 @@ Simulator::Simulator(SDL_Surface * s)
             }
             else
             {
-                vField[i].push_back(Cell(i, j, false)); //Does this cause problems when you exit function?
+                vField[i].push_back(Cell(i, j, false));
             }
         }
     }
@@ -50,7 +52,7 @@ int Simulator::getNeighbors(int i, int j)
                 iNeighbors++;
         }
     }
-    if (vField[i][j].bLive)
+    if (vField[i][j].bLive) //cell is not its own neighbor
         iNeighbors--;
 
     return iNeighbors;
@@ -58,9 +60,9 @@ int Simulator::getNeighbors(int i, int j)
 
 void Simulator::updateField()
 {
-    for (int i = 0; i < SCREEN_WIDTH; i++)
+    for (unsigned int i = 0; i < SCREEN_WIDTH; i++)
     {
-        for (int j = 0; j < SCREEN_HEIGHT; j++)
+        for (unsigned int j = 0; j < SCREEN_HEIGHT; j++)
         {
             if (!vField[i][j].bLive)
             {
@@ -75,9 +77,9 @@ void Simulator::updateField()
         }
     }
 
-    for (int i = 0; i < SCREEN_WIDTH; i++)
+    for (unsigned int i = 0; i < SCREEN_WIDTH; i++)
     {
-        for (int j = 0; j < SCREEN_HEIGHT; j++)
+        for (unsigned int j = 0; j < SCREEN_HEIGHT; j++)
         {
             if (vField[i][j].bLive != bUpdates[i][j])
             {
@@ -112,38 +114,64 @@ void Simulator::updateField()
     }
 }
 
+void Simulator::handleEvents()
+{
+    int mouse_x, mouse_y;
+
+    while( SDL_PollEvent( &event ) )
+    {
+        switch (event.type)
+        {
+            case SDL_QUIT:
+                bRunning = false;
+                break;
+            case SDL_KEYDOWN:
+                switch(event.key.keysym.sym)
+                {
+                    case SDLK_ESCAPE:
+                        bRunning = false;
+                        break;
+                    case SDLK_SPACE:
+                        bPaused = !bPaused;
+                    default:
+                        continue;
+                }
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                SDL_WM_GrabInput(SDL_GRAB_ON);
+                SDL_GetMouseState(&mouse_x, &mouse_y);
+                break;
+
+            case SDL_MOUSEBUTTONUP:
+                break;
+
+            case SDL_MOUSEMOTION:
+                SDL_GetMouseState(&mouse_x, &mouse_y);
+                break;
+            default:
+                break;
+        }
+    }
+}
 
 void Simulator::start()
 {
-
-
-    Uint32 startclock;
-    Uint32 currentFPS = 0;
-    Uint32 deltaclock = 0;
 
     Uint32 waittime = 1000.0f/FPS;
     Uint32 framestarttime = 0;
     Sint32 delaytime;
 
-    while(true)
+    while(bRunning)
     {
-        startclock = SDL_GetTicks();
-        while( SDL_PollEvent( &event ) ){}
+        handleEvents();
 
-        updateField();
+        if(!bPaused) updateField();
         rend->drawFrame();
 
         delaytime = waittime - (SDL_GetTicks() - framestarttime);
         if  (delaytime > 0)
             SDL_Delay((Uint32)delaytime);
         framestarttime = SDL_GetTicks();
-
-        deltaclock = SDL_GetTicks() - startclock;
-
-        if (deltaclock !=  0 )
-        {
-            currentFPS = 1000/deltaclock;
-        }
     }
 
 }

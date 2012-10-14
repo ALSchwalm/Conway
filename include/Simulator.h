@@ -18,6 +18,7 @@ class Simulator
         Simulator(SDL_Surface * s);
         void start();
         void updateField();
+        void handleEvents();
         SDL_Surface * getSurface(){return screen;}
 
         vector <vector <Cell> > & getField(){return vField;}
@@ -29,6 +30,8 @@ class Simulator
 
         vector <vector <Cell> >vField;
 
+        bool bPaused;
+        bool bRunning;
         SDL_Surface * screen;
         Render * rend;
         SDL_Event event;
