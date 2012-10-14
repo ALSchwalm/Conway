@@ -120,17 +120,20 @@ void Simulator::liveCell( int x, int y)
     int iTempX = (x - (x % CELL_SIZE))/CELL_SIZE;
     int iTempY = (y - (y % CELL_SIZE))/CELL_SIZE;
 
-    vField[iTempX][iTempY].bLive = true;
-
-    for (int k = -1; k < 2; k++)
+    if (!vField[iTempX][iTempY].bLive)
     {
-        for (int h = -1; h < 2; h++)
+        vField[iTempX][iTempY].bLive = true;
+
+        for (int k = -1; k < 2; k++)
         {
-            if (iTempX + k < SCREEN_WIDTH && iTempY + h < SCREEN_HEIGHT)
-                vField[iTempX+k][iTempY+h].iNeighbors++;
+            for (int h = -1; h < 2; h++)
+            {
+                if (iTempX + k < SCREEN_WIDTH && iTempY + h < SCREEN_HEIGHT)
+                    vField[iTempX+k][iTempY+h].iNeighbors++;
+            }
         }
+        vField[iTempX][iTempY].iNeighbors--; //A cell is not its own neighbor
     }
-    vField[iTempX][iTempY].iNeighbors--; //A cell is not its own neighbor
 }
 
 
