@@ -14,10 +14,9 @@ void Render::drawFrame()
         for (unsigned int j = 0 ; j < SCREEN_HEIGHT; j++)
         {
             if ( sim->getField()[i][j]){
-                SDL_Rect cell = {0+i, 0+j, 1+1, 1+1};
+                SDL_Rect cell = {i*3, j*3, 3, 3};
                 SDL_FillRect(sim->getSurface(), &cell, 0xffffff);
             }
-
         }
     }
 

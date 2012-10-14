@@ -1,10 +1,9 @@
 #include "SDL/SDL.h"
 #include "Simulator.h"
 #include "Global.h"
-#include "Cell.h"
 
 #include <iostream>
-using namespace std; //remove this
+
 
 int main(int argc, char* args[])
 {

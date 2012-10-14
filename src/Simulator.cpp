@@ -15,40 +15,43 @@ Simulator::Simulator(SDL_Surface * s)
     {
         for (unsigned int j = 0; j < SCREEN_HEIGHT; j++)
         {
-            this->bField[i][j] = (rand() % 100) > 70 ? true : false;
+            this->bField[i][j] = (rand() % 100) > 20 ? true : false;
         }
     }
 }
 
 void Simulator::updateField()
 {
-    for (unsigned int i = 0; i < SCREEN_WIDTH; i++)
+    vector <vector <bool> > bNewField(bField);
+
+    for (int i = 0; i < SCREEN_WIDTH; i++)
     {
-        for (unsigned int j = 0; j < SCREEN_HEIGHT; j++)
+        for (int j = 0; j < SCREEN_HEIGHT; j++)
         {
-            unsigned int iNeighbors = 0;
-            if (i - 1 < SCREEN_WIDTH)
-                if (bField[i-1][j]) iNeighbors ++;
+            int iNeighbors = 0;
 
-            if (i + 1 < SCREEN_WIDTH)
-                if (bField[i+1][j]) iNeighbors ++;
-
-            if (j - 1 < SCREEN_HEIGHT)
-                if (bField[i][j-1]) iNeighbors ++;
-
-            if (j + 1 < SCREEN_HEIGHT)
-                if (bField[i][j+1]) iNeighbors ++;
+            for (int k = -1; k < 2; k++)
+            {
+                for (int h = -1; h < 2; h++)
+                {
+                    if (i + k < SCREEN_WIDTH && j + h < SCREEN_HEIGHT && bField[i+k][j+h])
+                        iNeighbors++;
+                }
+            }
+            if (bField[i][j])
+                iNeighbors--;
 
             if (!bField[i][j])
             {
-                if ( iNeighbors == 3 ) this->bField[i][j] = true;
+                if ( iNeighbors == 3) bNewField[i][j] = true;
             }
             else
             {
-                if ( iNeighbors < 2 || iNeighbors > 3) this->bField[i][j] = false;
+                if ( iNeighbors < 2 || iNeighbors > 3) bNewField[i][j] = false;
             }
         }
     }
+    bField = bNewField;
 }
 
 
