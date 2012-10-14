@@ -8,6 +8,7 @@ Simulator::Simulator(SDL_Surface * s)
     this->rend = new Render(this);
     this->bPaused = false;
     this->bRunning = true;
+    this->bMousePressed = false;
     for (unsigned int i = 0 ; i < SCREEN_WIDTH; i++)
     {
         this->vField.push_back(*(new vector <Cell>));
@@ -114,6 +115,25 @@ void Simulator::updateField()
     }
 }
 
+void Simulator::liveCell( int x, int y)
+{
+    int iTempX = (x - (x % CELL_SIZE))/CELL_SIZE;
+    int iTempY = (y - (y % CELL_SIZE))/CELL_SIZE;
+
+    vField[iTempX][iTempY].bLive = true;
+
+    for (int k = -1; k < 2; k++)
+    {
+        for (int h = -1; h < 2; h++)
+        {
+            if (iTempX + k < SCREEN_WIDTH && iTempY + h < SCREEN_HEIGHT)
+                vField[iTempX+k][iTempY+h].iNeighbors++;
+        }
+    }
+    vField[iTempX][iTempY].iNeighbors--; //A cell is not its own neighbor
+}
+
+
 void Simulator::handleEvents()
 {
     int mouse_x, mouse_y;
@@ -138,15 +158,21 @@ void Simulator::handleEvents()
                 }
                 break;
             case SDL_MOUSEBUTTONDOWN:
-                SDL_WM_GrabInput(SDL_GRAB_ON);
+                bMousePressed = true;
                 SDL_GetMouseState(&mouse_x, &mouse_y);
+                liveCell(mouse_x, mouse_y);
                 break;
 
             case SDL_MOUSEBUTTONUP:
+                bMousePressed = false;
                 break;
 
             case SDL_MOUSEMOTION:
-                SDL_GetMouseState(&mouse_x, &mouse_y);
+                if (bMousePressed)
+                {
+                    SDL_GetMouseState(&mouse_x, &mouse_y);
+                    liveCell(mouse_x, mouse_y);
+                }
                 break;
             default:
                 break;

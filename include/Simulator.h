@@ -29,7 +29,8 @@ class Simulator
         vector <vector <bool> >bUpdates;
 
         vector <vector <Cell> >vField;
-
+        void liveCell( int, int);
+        bool bMousePressed;
         bool bPaused;
         bool bRunning;
         SDL_Surface * screen;
