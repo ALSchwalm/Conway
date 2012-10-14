@@ -4,8 +4,10 @@
 #include "SDL/SDL.h"
 #include "Render.h"
 #include "Global.h"
+#include "Cell.h"
 #include <vector>
 #include <time.h>
+#include <iostream>
 
 class Render;
 using namespace std;
@@ -17,11 +19,15 @@ class Simulator
         void start();
         void updateField();
         SDL_Surface * getSurface(){return screen;}
-        vector <vector <bool> > & getField(){return bField;}
+
+        vector <vector <Cell> > & getField(){return vField;}
 
     private:
-        vector <vector <bool> >bField;
-        vector <pair <int, int> >vPoints;
+        int getNeighbors(int, int);
+
+        vector <vector <bool> >bUpdates;
+
+        vector <vector <Cell> >vField;
 
         SDL_Surface * screen;
         Render * rend;
