@@ -25,6 +25,7 @@ class Simulator
 
     private:
         int getNeighbors(int, int);
+        void addRandom();
 
         vector <vector <bool> >bUpdates;
 

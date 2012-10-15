@@ -2,13 +2,14 @@
 
 Simulator::Simulator(SDL_Surface * s)
 {
-    srand(time(NULL));
+    srand(time(NULL)); //still worst random ever
 
     this->screen = s;
     this->rend = new Render(this);
     this->bPaused = false;
     this->bRunning = true;
     this->bMousePressed = false;
+
     for (unsigned int i = 0 ; i < SCREEN_WIDTH; i++)
     {
         this->vField.push_back(*(new vector <Cell>));
@@ -41,6 +42,21 @@ Simulator::Simulator(SDL_Surface * s)
     }
 }
 
+void Simulator::addRandom()
+{
+    for (unsigned int i = 0; i < SCREEN_WIDTH; i++)
+    {
+        for (unsigned int j = 0; j < SCREEN_HEIGHT; j++)
+        {
+            int iRand = rand() % 100;
+
+            if (iRand > 80)
+                liveCell(i*CELL_SIZE, j*CELL_SIZE);
+        }
+    }
+}
+
+
 int Simulator::getNeighbors(int i, int j)
 {
     int iNeighbors = 0;
@@ -67,12 +83,12 @@ void Simulator::updateField()
         {
             if (!vField[i][j].bLive)
             {
-                if ( vField[i][j].iNeighbors == 3) bUpdates[i][j] = true;
+                if ( vField[i][j].iNeighbors == 3) bUpdates[i][j] = true;  //2
                 else bUpdates[i][j] = false;
             }
             else
             {
-                if ( vField[i][j].iNeighbors < 2 || vField[i][j].iNeighbors > 3) bUpdates[i][j] = false;
+                if ( vField[i][j].iNeighbors < 2 || vField[i][j].iNeighbors > 3) bUpdates[i][j] = false; // <1 > 3 give maze
                 else bUpdates[i][j] = true;
             }
         }
@@ -156,6 +172,10 @@ void Simulator::handleEvents()
                         break;
                     case SDLK_SPACE:
                         bPaused = !bPaused;
+                        break;
+                    case SDLK_r:
+                        addRandom();
+                        break;
                     default:
                         continue;
                 }
