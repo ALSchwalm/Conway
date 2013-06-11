@@ -10,11 +10,11 @@ class Render
 {
     public:
         Render();
-        Render(Simulator *);
+        Render(Simulator*);
         void drawFrame();
 
     private:
-        Simulator * sim;
+        Simulator* sim;
 };
 
 #endif // RENDER_H
