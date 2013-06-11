@@ -176,6 +176,9 @@ void Simulator::handleEvents()
                     case SDLK_r:
                         addRandom();
                         break;
+                    case SDLK_RIGHT:
+                        updateField();
+                        break;
                     default:
                         continue;
                 }
@@ -195,6 +198,7 @@ void Simulator::handleEvents()
                 {
                     SDL_GetMouseState(&mouse_x, &mouse_y);
                     liveCell(mouse_x, mouse_y);
+                    liveCell(mouse_x + CELL_SIZE, mouse_y);
                 }
                 break;
             default:

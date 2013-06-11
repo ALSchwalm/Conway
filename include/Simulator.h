@@ -28,12 +28,13 @@ class Simulator
         void addRandom();
 
         vector <vector <bool> >bUpdates;
-
         vector <vector <Cell> >vField;
+
         void liveCell( int, int);
         bool bMousePressed;
         bool bPaused;
         bool bRunning;
+
         SDL_Surface * screen;
         Render * rend;
         SDL_Event event;
