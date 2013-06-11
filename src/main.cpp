@@ -7,7 +7,7 @@
 int main(int argc, char* args[])
 {
 
-    SDL_Surface * screen;
+    SDL_Surface* screen;
 
     SDL_Init (SDL_INIT_EVERYTHING);
     screen = SDL_SetVideoMode (CELL_SIZE*SCREEN_WIDTH, CELL_SIZE*SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);

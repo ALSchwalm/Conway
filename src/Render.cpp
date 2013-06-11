@@ -1,8 +1,8 @@
 #include "Render.h"
 
-Render::Render(Simulator * s)
+Render::Render(Simulator* s) :
+	sim(s)
 {
-    this->sim = s;
 }
 
 void Render::drawFrame()

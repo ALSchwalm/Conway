@@ -1,8 +1,8 @@
 #include "Cell.h"
 
-Cell::Cell(unsigned int x, unsigned int y, bool bLive)
+Cell::Cell(unsigned int _x, unsigned int _y, bool _bLive) :
+	x(_x),
+	y(_y),
+	bLive(_bLive)
 {
-    this->x = x;
-    this->y = y;
-    this->bLive = bLive;
 }

@@ -1,14 +1,15 @@
 #include "Simulator.h"
 
-Simulator::Simulator(SDL_Surface * s)
+Simulator::Simulator(SDL_Surface* s) :
+	screen(s),
+	bMousePressed(false),
+	bPaused(false),
+	bRunning(true)
 {
-    srand(time(NULL)); //still worst random ever
+    srand(time(NULL));
 
-    this->screen = s;
     this->rend = new Render(this);
-    this->bPaused = false;
-    this->bRunning = true;
-    this->bMousePressed = false;
+
 
     for (unsigned int i = 0 ; i < SCREEN_WIDTH; i++)
     {

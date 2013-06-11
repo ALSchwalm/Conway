@@ -15,28 +15,29 @@ using namespace std;
 class Simulator
 {
     public:
-        Simulator(SDL_Surface * s);
+        Simulator(SDL_Surface* s);
         void start();
         void updateField();
         void handleEvents();
-        SDL_Surface * getSurface(){return screen;}
+        SDL_Surface* getSurface(){return screen;}
 
         vector <vector <Cell> > & getField(){return vField;}
 
     private:
         int getNeighbors(int, int);
         void addRandom();
+        void liveCell(int, int);
 
         vector <vector <bool> >bUpdates;
         vector <vector <Cell> >vField;
 
-        void liveCell( int, int);
+        SDL_Surface* screen;
         bool bMousePressed;
         bool bPaused;
         bool bRunning;
 
-        SDL_Surface * screen;
-        Render * rend;
+
+        Render* rend;
         SDL_Event event;
 };
 
